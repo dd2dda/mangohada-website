@@ -1,3 +1,9 @@
+// ===== SUPABASE =====
+const supabase = window.supabase.createClient(
+  'https://vthzzbvsitxzptndvhcq.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0aHp6YnZzaXR4enB0bmR2aGNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkxNzEsImV4cCI6MjA5NzI5NTE3MX0.06XAUQ-WJp1KMifVQ7WlHsFZUcZjc8cfayipX6Nj3Ac'
+);
+
 // ===== HEADER SCROLL =====
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
@@ -64,25 +70,22 @@ form.addEventListener('submit', async e => {
   btn.disabled = true;
   statusEl.textContent = '';
 
-  try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
-    });
+  const { error } = await supabase.from('contacts').insert({
+    name:    form.name.value.trim(),
+    email:   form.email.value.trim(),
+    phone:   form.phone.value.trim() || null,
+    message: form.message.value.trim(),
+  });
 
-    if (res.ok) {
-      statusEl.textContent = '제안서가 성공적으로 전달되었습니다. 빠르게 연락드릴게요!';
-      statusEl.style.color = '#a3d9a5';
-      form.reset();
-    } else {
-      throw new Error();
-    }
-  } catch {
+  if (error) {
     statusEl.textContent = '전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
     statusEl.style.color = '#e07070';
-  } finally {
-    btn.textContent = original;
-    btn.disabled = false;
+  } else {
+    statusEl.textContent = '제안서가 성공적으로 전달되었습니다. 빠르게 연락드릴게요!';
+    statusEl.style.color = '#a3d9a5';
+    form.reset();
   }
+
+  btn.textContent = original;
+  btn.disabled = false;
 });

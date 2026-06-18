@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -140,7 +141,7 @@
           빠르게 검토 후 연락드리겠습니다.
         </p>
       </div>
-      <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="fade-up" style="transition-delay:0.1s">
+      <form id="contactForm" class="fade-up" style="transition-delay:0.1s">
         <div class="form-row">
           <div class="form-group">
             <label for="name">이름 / 회사명 <span class="required">*</span></label>
